@@ -1,6 +1,5 @@
 # source
-**/*.ts
-*.ts
+src
 
 # definitions
 !**/*.d.ts
