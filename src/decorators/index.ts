@@ -1,2 +1,2 @@
 export * from './kafka-listener.decorator';
-export * from './kafka-dtl.decorator';
+export * from './kafka-dlt.decorator';
