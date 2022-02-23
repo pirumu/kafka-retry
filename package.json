@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "description": "Handle kafka retry topic for nestjs microservice",
   "main": "index.js",
-  "repository": "git+ssh://git@bitbucket.org:bein-platform/kafka-retry.git",
+  "repository": "git@github.com:nattogo/kafka-retry.git",
   "author": "VanTT",
-  "private": true,
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",

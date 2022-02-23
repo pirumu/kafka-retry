@@ -1,7 +1,7 @@
 # KAFKA RETRY
 
-[Docs](https://github.com/nattogo/nest-udp/blob/master/README.MD) |
-[MIT Licensed](https://github.com/nattogo/nest-udp/blob/master/LICENSE.MD)
+[Docs](https://github.com/nattogo/kafka-retry/blob/master/README.MD) |
+[MIT Licensed](https://github.com/nattogo/kafka-retry/blob/master/LICENSE.MD)
 
 Kafka retry topic for nestjs microservice.
 
