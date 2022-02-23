@@ -1,2 +1,4 @@
-export * from './v8';
-export * from './v7';
+export * from './kafka-strategy';
+export * from './decorators';
+export * from './interfaces';
+export * from './constants';

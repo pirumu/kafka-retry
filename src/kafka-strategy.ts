@@ -6,13 +6,9 @@ import {
   ReadPacket,
   ServerKafka,
 } from '@nestjs/microservices';
-import { BaseRpcContext } from '@nestjs/microservices/ctx-host/base-rpc.context';
-import {
-  Consumer,
-  EachMessagePayload,
-  IHeaders,
-} from '@nestjs/microservices/external/kafka.interface';
-import { connectable, isObservable, Subject } from 'rxjs';
+import {BaseRpcContext} from '@nestjs/microservices/ctx-host/base-rpc.context';
+import {Consumer, EachMessagePayload, IHeaders,} from '@nestjs/microservices/external/kafka.interface';
+import {connectable, isObservable, Subject} from 'rxjs';
 import {
   KAFKA_DEFAULT_DELAY,
   KAFKA_DEFAULT_MULTIPLIER,
@@ -20,8 +16,10 @@ import {
   NO_MESSAGE_HANDLER,
   TopicSuffixingStrategy,
 } from './constants';
-import { KafkaAdmin } from './kafka-admin';
-import { getDeadTopicName, getRetryTopicName } from './utils';
+import {KafkaAdmin} from './kafka-admin';
+import {getRetryMetadataByKey} from './retry-metadata.global';
+import {getDeadTopicName, getRetryTopicName} from './utils';
+import {isGTEV8_3_1} from './version';
 
 export class KafkaStrategy
   extends ServerKafka
@@ -97,8 +95,7 @@ export class KafkaStrategy
   public getRemainingTimeToProcess(rawMessage) {
     const { timestamp, headers } = rawMessage;
     const delay = headers.delay;
-    const remainingTime = parseInt(timestamp) + parseInt(delay) - +new Date();
-    return remainingTime;
+    return parseInt(timestamp) + parseInt(delay) - +new Date();
   }
 
   parseRawMessage(payload: EachMessagePayload) {
@@ -116,6 +113,7 @@ export class KafkaStrategy
 
     return { isRetry, rawMessage };
   }
+
   public async handleMessage(rawMessage) {
     const { topic, partition, headers } = rawMessage;
     console.log(
@@ -198,8 +196,11 @@ export class KafkaStrategy
   }
 
   handleRetry(pattern: string, headers: IHeaders, payload) {
-    const handlerPattern = this.getHandlers().get(pattern);
-    const retry = handlerPattern.extras.retry || null;
+    const handlerPattern = this.getHandlerByPattern(pattern);
+    let retry = handlerPattern?.extras?.retry || null;
+    if(!isGTEV8_3_1()) {
+      retry = getRetryMetadataByKey(pattern)['retry'] ?? null;
+    } 
     if (!retry || retry?.attempts === 0) return;
 
     const initialDelay = retry.backoff?.delay || KAFKA_DEFAULT_DELAY;
@@ -236,6 +237,10 @@ export class KafkaStrategy
     const kafkaAdmin = new KafkaAdmin(this.client.admin());
     const handler = this.getHandlers();
     for (const [key, value] of handler.entries()) {
+
+      if(!isGTEV8_3_1()) {
+        value['extras'] = getRetryMetadataByKey(key);
+      }
       if (value.extras.retry && value.extras.retry.attempts > 0) {
         const retryTopics = await kafkaAdmin.createRetryTopics(
           key,

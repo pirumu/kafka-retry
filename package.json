@@ -1,11 +1,12 @@
 {
   "name": "kafka-retry",
   "version": "1.0.5",
-  "description": "Handle kafka retry topic for nestjs microservice",
+  "description": "Handle kafka non-blocking retries and dead letter topics for nestjs microservice",
   "main": "dist/index.js",
   "repository": "git@github.com:nattogo/kafka-retry.git",
   "author": "VanTT",
   "license": "MIT",
+  "keywords": ["kafkajs Non-Blocking Retries and Dead Letter Topics", "Kafkajs", "Nestjs","Nestjs Microservice","Nodejs"],
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -22,6 +23,7 @@
     "@nestjs/config": "^1.0.2",
     "@nestjs/core": "^8.3.1",
     "@nestjs/microservices": "^8.3.1",
+    "@types/semver": "^7.3.9",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^8.0.1",
@@ -49,5 +51,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "dependencies": {
+    "semver": "^7.3.5"
   }
 }
