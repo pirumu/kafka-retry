@@ -2,7 +2,7 @@
   "name": "kafka-retry",
   "version": "1.0.3",
   "description": "Handle kafka retry topic for nestjs microservice",
-  "main": "index.js",
+  "main": "dist/index.js",
   "repository": "git@github.com:nattogo/kafka-retry.git",
   "author": "VanTT",
   "license": "MIT",
