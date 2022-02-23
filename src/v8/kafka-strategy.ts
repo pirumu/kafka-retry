@@ -61,9 +61,9 @@ export class KafkaStrategy
         ...consumerSubscribeOptions,
       });
     await Promise.all(registeredPatterns.map(subscribeToPattern));
-
+    const autoCommit = this.options.run?.autoCommit || false;
     const consumerRunOptions = Object.assign(this.options.run || {}, {
-      autoCommit: false,
+      autoCommit,
       eachMessage: async (payload) => {
         const { rawMessage, isRetry } = this.parseRawMessage(payload);
         const { topic, partition } = rawMessage;
