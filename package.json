@@ -1,11 +1,10 @@
 {
   "name": "kafka-retry",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "Handle kafka retry topic for nestjs microservice",
-  "main": "index.js",
-  "repository": "git+ssh://git@bitbucket.org:bein-platform/kafka-retry.git",
+  "main": "dist/index.js",
+  "repository": "git@github.com:nattogo/kafka-retry.git",
   "author": "VanTT",
-  "private": true,
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -20,9 +19,9 @@
   },
   "devDependencies": {
     "@nestjs/common": "^8.3.1",
+    "@nestjs/config": "^1.0.2",
     "@nestjs/core": "^8.3.1",
     "@nestjs/microservices": "^8.3.1",
-    "@nestjs/config": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^8.0.1",
